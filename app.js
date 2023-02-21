@@ -3,7 +3,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const request = require('request');
 const app = express();
-const port = 80;
+const port = process.env.PORT || 3000;
 
 // Enable CORS
 app.use((req, res, next) => {
