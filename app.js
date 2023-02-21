@@ -3,7 +3,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const request = require('request');
 const app = express();
-const port = 443;
+const port = 8080;
 
 // Enable CORS
 app.use((req, res, next) => {
@@ -53,8 +53,6 @@ app.use((req, res, next) => {
   
         // Send the scraped data back to the client as a JSON object
         res.json(data);
-        
-        // createUser()
   
       }
     });
