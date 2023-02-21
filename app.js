@@ -3,7 +3,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const request = require('request');
 const app = express();
-const port = 3000;
+const port = 443;
 
 // Enable CORS
 app.use((req, res, next) => {
@@ -13,37 +13,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.get("/", (req, res) => {
-//     axios
-//       .get("https://www.basketball-reference.com/leagues/NBA_2023_per_game.html")
-//       .then((response) => {
-//         const html = response.data;
-//         const $ = cheerio.load(html);
-//         const table = $("#per_game_stats");
-  
-//         const rows = [];
-  
-//         // Extract table rows
-//         table.find("tbody tr").each(function () {
-//           const row = {};
-//           $(this)
-//             .find("td")
-//             .each(function () {
-//               const header = $(this).attr("data-stat");
-//               row[header] = $(this).text();
-//             });
-//           rows.push(row);
-//         });
-  
-//         console.log(rows);
-  
-//         res.send(rows);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//         res.status(500).send("Error retrieving data");
-//       });
-//   });
+
   app.get('/', (req, res) => {
     request('https://www.basketball-reference.com/leagues/NBA_2023_per_game.html', (error, response, html) => {
       if (!error && response.statusCode == 200) {
