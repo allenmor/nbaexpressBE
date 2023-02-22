@@ -98,6 +98,1310 @@ app.get('/standings', (req, res) => {
       });
   });
 
+  app.get('/celtics', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/101/boston-celtics')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  
+  app.get('/bucks', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/114/milwaukee-bucks')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  
+  app.get('/nuggets', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/106/denver-nuggets')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+
+  app.get('/nets', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/116/brooklyn-nets')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  
+  app.get('/knicks', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/117/new-york-knicks')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/76ers', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/119/philadelphia-76ers')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/raptors', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/125/toronto-raptors')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/bulls', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/103/chicago-bulls')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  
+  app.get('/cavaliers', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/104/cleveland-cavaliers')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+
+  app.get('/pistons', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/107/detroit-pistons')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+
+  app.get('/pacers', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/110/indiana-pacers')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+
+  app.get('/timberwolves', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/115/minnesota-timberwolves')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/thunder', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/1827/oklahoma-city-thunder')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/blazers', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/121/portland-trail-blazers')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/jazz', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/126/utah-jazz')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/warriors', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/108/golden-state-warriors')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/clippers', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/111/la-clippers')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/lakers', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/112/los-angeles-lakers')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/suns', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/120/phoenix-suns')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/kings', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/122/sacramento-kings')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/hawks', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/100/atlanta-hawks')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/hornets', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/825/charlotte-hornets')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/heat', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/113/miami-heat')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/magic', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/118/orlando-magic')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/wizards', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/128/washington-wizards')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  
+  app.get('/mavericks', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/105/dallas-mavericks')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  
+  app.get('/rockets', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/109/houston-rockets')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/grizzlies', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/127/memphis-grizzlies')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  app.get('/pelicans', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/102/new-orleans-pelicans')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  
+  app.get('/spurs', (req, res) => {
+    axios.get('https://www.proballers.com/basketball/team/123/san-antonio-spurs')
+      .then(response => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        const table = $('table');
+  
+        const headers = [];
+        const rows = [];
+  
+        // Extract table headers
+        table.find('thead th').each(function() {
+          headers.push($(this).text());
+        });
+  
+        // Extract table rows
+        table.find('tbody tr').each(function() {
+          const row = {};
+          $(this).find('td').each(function(index) {
+            row[headers[index]] = $(this).text().trim();
+          });
+          rows.push(row);
+        });
+  
+        // Remove duplicates
+        const uniqueRows = rows.filter((row, index, self) =>
+          index === self.findIndex((r) => (
+            r.Player === row.Player && r.Pos === row.Pos && r.Height === row.Height
+          ))
+        );
+  
+        // Remove objects where Player is equal to "-"
+        const filteredRows = uniqueRows.filter(row => row.Player !== "-");
+  
+        console.log(filteredRows);
+  
+        res.send(filteredRows);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).send('Error retrieving data');
+      });
+  });
+  
+  
+  
 
   
   
