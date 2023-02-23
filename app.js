@@ -1399,182 +1399,56 @@ app.get('/standings', (req, res) => {
         res.status(500).send('Error retrieving data');
       });
   });
-  
-app.get('/points', (req, res) => {  
+
+app.get('/leaderstats', (req, res) => {
   const url = 'https://www.proballers.com/basketball/league/3/nba';
 
-  axios.get(url).then(response => {
-    const $ = cheerio.load(response.data);
-    const players = [];
+  const categories = [
+    { name: 'points', selector: '.home-league__content__card:has(.card__title:contains("Points per game")) .card__content li' },
+    { name: 'rebounds', selector: '.home-league__content__card:has(.card__title:contains("Rebounds per game")) .card__content li' },
+    { name: 'assists', selector: '.home-league__content__card:has(.card__title:contains("Assists per game")) .card__content li' },
+    { name: 'threes', selector: '.home-league__content__card:has(.card__title:contains("3-pointers made per game")) .card__content li' },
+    { name: 'steals', selector: '.home-league__content__card:has(.card__title:contains("Steals per game")) .card__content li' },
+    { name: 'blocks', selector: '.home-league__content__card:has(.card__title:contains("Blocks per game")) .card__content li' },
+    { name: 'efficiency', selector: '.home-league__content__card:has(.card__title:contains("Efficiency per game")) .card__content li' },
+  ];
 
-    $('.home-league__content__card:has(.card__title:contains("Points per game")) .card__content li').each((i, element) => {
-      const player = {};
-      const cardEntry = $(element).find('.card__entry');
+  const promises = categories.map(category => {
+    return axios.get(url).then(response => {
+      const $ = cheerio.load(response.data);
+      const players = [];
 
-      player.name = cardEntry.find('.card__name .name').text();
-      player.team = cardEntry.find('.card__name .team').text();
-      player.points = cardEntry.find('.card__stat').text().trim();
-      player.img = cardEntry.find('a.card__identity img').attr('src');
+      $(category.selector).each((i, element) => {
+        const player = {};
+        const cardEntry = $(element).find('.card__entry');
 
-      players.push(player);
+        player.name = cardEntry.find('.card__name .name').text();
+        player.team = cardEntry.find('.card__name .team').text();
+        player.points = cardEntry.find('.card__stat').text().trim();
+        player.img = cardEntry.find('a.card__identity img').attr('src');
+
+        players.push(player);
+      });
+
+      return { [category.name]: players };
+    }).catch(error => {
+      console.log(error);
+      return { [category.name]: [] };
+    });
+  });
+
+  Promise.all(promises).then(results => {
+    const stats = {};
+
+    results.forEach(result => {
+      const [key, value] = Object.entries(result)[0];
+      stats[key] = value;
     });
 
-    res.json(players);
-  }).catch(error => {
-    console.log(error);
-    res.sendStatus(500);
+    res.json(stats);
   });
 });
-app.get('/rebounds', (req, res) => {  
-  const url = 'https://www.proballers.com/basketball/league/3/nba';
 
-  axios.get(url).then(response => {
-    const $ = cheerio.load(response.data);
-    const players = [];
-
-    $('.home-league__content__card:has(.card__title:contains("Rebounds per game")) .card__content li').each((i, element) => {
-      const player = {};
-      const cardEntry = $(element).find('.card__entry');
-
-      player.name = cardEntry.find('.card__name .name').text();
-      player.team = cardEntry.find('.card__name .team').text();
-      player.points = cardEntry.find('.card__stat').text().trim();
-      player.img = cardEntry.find('a.card__identity img').attr('src');
-
-      players.push(player);
-    });
-
-    res.json(players);
-  }).catch(error => {
-    console.log(error);
-    res.sendStatus(500);
-  });
-});
-app.get('/assists', (req, res) => {  
-  const url = 'https://www.proballers.com/basketball/league/3/nba';
-
-  axios.get(url).then(response => {
-    const $ = cheerio.load(response.data);
-    const players = [];
-
-    $('.home-league__content__card:has(.card__title:contains("Assists per game")) .card__content li').each((i, element) => {
-      const player = {};
-      const cardEntry = $(element).find('.card__entry');
-
-      player.name = cardEntry.find('.card__name .name').text();
-      player.team = cardEntry.find('.card__name .team').text();
-      player.points = cardEntry.find('.card__stat').text().trim();
-      player.img = cardEntry.find('a.card__identity img').attr('src');
-
-      players.push(player);
-    });
-
-    res.json(players);
-  }).catch(error => {
-    console.log(error);
-    res.sendStatus(500);
-  });
-});
-app.get('/threes', (req, res) => {  
-  const url = 'https://www.proballers.com/basketball/league/3/nba';
-
-  axios.get(url).then(response => {
-    const $ = cheerio.load(response.data);
-    const players = [];
-
-    $('.home-league__content__card:has(.card__title:contains("3-pointers made per game")) .card__content li').each((i, element) => {
-      const player = {};
-      const cardEntry = $(element).find('.card__entry');
-
-      player.name = cardEntry.find('.card__name .name').text();
-      player.team = cardEntry.find('.card__name .team').text();
-      player.points = cardEntry.find('.card__stat').text().trim();
-      player.img = cardEntry.find('a.card__identity img').attr('src');
-
-      players.push(player);
-    });
-
-    res.json(players);
-  }).catch(error => {
-    console.log(error);
-    res.sendStatus(500);
-  });
-});
-app.get('/steals', (req, res) => {  
-  const url = 'https://www.proballers.com/basketball/league/3/nba';
-
-  axios.get(url).then(response => {
-    const $ = cheerio.load(response.data);
-    const players = [];
-
-    $('.home-league__content__card:has(.card__title:contains("Steals per game")) .card__content li').each((i, element) => {
-      const player = {};
-      const cardEntry = $(element).find('.card__entry');
-
-      player.name = cardEntry.find('.card__name .name').text();
-      player.team = cardEntry.find('.card__name .team').text();
-      player.points = cardEntry.find('.card__stat').text().trim();
-      player.img = cardEntry.find('a.card__identity img').attr('src');
-
-      players.push(player);
-    });
-
-    res.json(players);
-  }).catch(error => {
-    console.log(error);
-    res.sendStatus(500);
-  });
-});
-app.get('/blocks', (req, res) => {  
-  const url = 'https://www.proballers.com/basketball/league/3/nba';
-
-  axios.get(url).then(response => {
-    const $ = cheerio.load(response.data);
-    const players = [];
-
-    $('.home-league__content__card:has(.card__title:contains("Blocks per game")) .card__content li').each((i, element) => {
-      const player = {};
-      const cardEntry = $(element).find('.card__entry');
-
-      player.name = cardEntry.find('.card__name .name').text();
-      player.team = cardEntry.find('.card__name .team').text();
-      player.points = cardEntry.find('.card__stat').text().trim();
-      player.img = cardEntry.find('a.card__identity img').attr('src');
-
-      players.push(player);
-    });
-
-    res.json(players);
-  }).catch(error => {
-    console.log(error);
-    res.sendStatus(500);
-  });
-});
-app.get('/efficiency', (req, res) => {  
-  const url = 'https://www.proballers.com/basketball/league/3/nba';
-
-  axios.get(url).then(response => {
-    const $ = cheerio.load(response.data);
-    const players = [];
-
-    $('.home-league__content__card:has(.card__title:contains("Efficiency per game")) .card__content li').each((i, element) => {
-      const player = {};
-      const cardEntry = $(element).find('.card__entry');
-
-      player.name = cardEntry.find('.card__name .name').text();
-      player.team = cardEntry.find('.card__name .team').text();
-      player.points = cardEntry.find('.card__stat').text().trim();
-      player.img = cardEntry.find('a.card__identity img').attr('src');
-
-      players.push(player);
-    });
-
-    res.json(players);
-  }).catch(error => {
-    console.log(error);
-    res.sendStatus(500);
-  });
-});
 
 
 
