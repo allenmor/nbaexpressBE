@@ -1771,22 +1771,69 @@ app.get("/upcoming", (req, res) => {
 
       $(".class-CJ3UWs3").each((i, element) => {
         $(".class-37RyWMg").each((j, gameElement) => {
-          const awayTeamName = $(gameElement).find(".class-jer7RpM").first().text();
-          const awayRecord = $(gameElement).find(".class-JBRBGd- .class-QA1t2Tt").first().text();
+          const awayTeamName = $(gameElement)
+            .find(".class-jer7RpM")
+            .first()
+            .text();
+          const awayRecord = $(gameElement)
+            .find(".class-JBRBGd- .class-QA1t2Tt")
+            .first()
+            .text();
           // const awayImgSrc = $(gameElement).find(".class-xuy-sj0 .class-A-tZ6JF img").first().attr("src");
-          const homeTeamName = $(gameElement).find(".class-jer7RpM").last().text();
-          const homeRecord = $(gameElement).find(".class-JBRBGd- .class-QA1t2Tt").last().text();
+          const homeTeamName = $(gameElement)
+            .find(".class-jer7RpM")
+            .last()
+            .text();
+          const homeRecord = $(gameElement)
+            .find(".class-JBRBGd- .class-QA1t2Tt")
+            .last()
+            .text();
           // const homeImgSrc = $(gameElement).find(".class-xuy-sj0 .class-A-tZ6JF img").last().attr("src");
           const arena = $(gameElement).find(".class-0OfJ5G6").last().text();
           const city = $(gameElement).find(".class-XD3FDFr").last().text();
-          const spreadAway = $(gameElement).find(".class-BO6V0Dn .class-Pq2FfHX").eq(0).text();
-          const spreadHome = $(gameElement).find(".class-BO6V0Dn .class-Pq2FfHX").eq(3).text();
-          const moneyLineAway = $(gameElement).find(".class-BO6V0Dn .class-Pq2FfHX").eq(1).text();
-          const moneyLineHome = $(gameElement).find(".class-BO6V0Dn .class-Pq2FfHX").eq(4).text();
-          const totalOver = $(gameElement).find(".class-BO6V0Dn .class-Pq2FfHX").eq(2).text();
-          const totalUnder = $(gameElement).find(".class-BO6V0Dn .class-Pq2FfHX").eq(5).text();
-          const timeElement = $(gameElement).find('.class-8ygQElb:not(.class-E41EmCr)').first().text();
-          const game = { awayTeamName, awayRecord, timeElement, spreadAway, moneyLineAway, homeTeamName, homeRecord, spreadHome, moneyLineHome, arena, city, totalOver, totalUnder };
+          const spreadAway = $(gameElement)
+            .find(".class-BO6V0Dn .class-Pq2FfHX")
+            .eq(0)
+            .text();
+          const spreadHome = $(gameElement)
+            .find(".class-BO6V0Dn .class-Pq2FfHX")
+            .eq(3)
+            .text();
+          const moneyLineAway = $(gameElement)
+            .find(".class-BO6V0Dn .class-Pq2FfHX")
+            .eq(1)
+            .text();
+          const moneyLineHome = $(gameElement)
+            .find(".class-BO6V0Dn .class-Pq2FfHX")
+            .eq(4)
+            .text();
+          const totalOver = $(gameElement)
+            .find(".class-BO6V0Dn .class-Pq2FfHX")
+            .eq(2)
+            .text();
+          const totalUnder = $(gameElement)
+            .find(".class-BO6V0Dn .class-Pq2FfHX")
+            .eq(5)
+            .text();
+          const timeElement = $(gameElement)
+            .find(".class-8ygQElb:not(.class-E41EmCr)")
+            .first()
+            .text();
+          const game = {
+            awayTeamName,
+            awayRecord,
+            timeElement,
+            spreadAway,
+            moneyLineAway,
+            homeTeamName,
+            homeRecord,
+            spreadHome,
+            moneyLineHome,
+            arena,
+            city,
+            totalOver,
+            totalUnder,
+          };
           upcomingGames.push(game);
         });
       });
@@ -1799,41 +1846,42 @@ app.get("/upcoming", (req, res) => {
     });
 });
 
-app.get('/predict', (req, res) => {
-  axios.get('https://projects.fivethirtyeight.com/2023-nba-predictions/games/')
-    .then(response => {
+app.get("/predict", (req, res) => {
+  axios
+    .get("https://projects.fivethirtyeight.com/2023-nba-predictions/games/")
+    .then((response) => {
       const $ = cheerio.load(response.data);
       const games = [];
 
       // Scrape each game div and extract the relevant information
-      $('.game').each((index, element) => {
+      $(".game").each((index, element) => {
         const game = {};
 
         // Extract the team names
-        const team1 = $(element).find('.team').eq(0).text().trim();
-        const team2 = $(element).find('.team').eq(1).text().trim();
+        const team1 = $(element).find(".team").eq(0).text().trim();
+        const team2 = $(element).find(".team").eq(1).text().trim();
         game.teams = [team1, team2];
 
         // Extract the spread and win probability
-        const spread = $(element).find('.spread').text().trim();
-        const winProb = $(element).find('.chance').text().trim();
+        const spread = $(element).find(".spread").text().trim();
+        const winProb = $(element).find(".chance").text().trim();
         game.spread = spread;
         game.winProb = winProb;
 
         // Extract the metrics
-        const metrics = $(element).find('.metric-table td');
-        game.quality = $(metrics[0]).find('.val').text().trim();
-        game.importance = $(metrics[1]).find('.val').text().trim();
-        game.overall = $(metrics[2]).find('.val').text().trim();
+        const metrics = $(element).find(".metric-table td");
+        game.quality = $(metrics[0]).find(".val").text().trim();
+        game.importance = $(metrics[1]).find(".val").text().trim();
+        game.overall = $(metrics[2]).find(".val").text().trim();
 
         games.push(game);
       });
 
       res.json(games);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
-      res.send('Error scraping website');
+      res.send("Error scraping website");
     });
 });
 
@@ -1917,8 +1965,84 @@ app.get("/statleader", (req, res) => {
   });
 });
 
+// app.get('/schedule', (req, res) => {
+//   axios
+//     .get('https://www.proballers.com/')
+//     .then((response) => {
+//       const html = response.data;
+//       const $ = cheerio.load(html);
 
+//       const games = [];
 
+//       $('.main__schedule__match__entry').each((index, element) => {
+//         const game = {};
+
+//         // Extract team names and logos
+//         const teams = $(element).find('.teams__container .team__entry');
+//         game.homeTeam = teams.eq(0).find('.title').text().trim();
+//         game.homeLogo = teams.eq(0).find('.team__picture').attr('src');
+//         game.awayTeam = teams.eq(1).find('.title').text().trim();
+//         game.awayLogo = teams.eq(1).find('.team__picture').attr('src');
+
+//         // Extract scores
+//         const scores = $(element).find('.score');
+//         game.homeScore = scores.eq(0).text().trim();
+//         game.awayScore = scores.eq(1).text().trim();
+
+//         games.push(game);
+//       });
+
+//       res.json(games);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       res.status(500).send('An error occurred');
+//     });
+// });
+
+app.get('/schedule', async (req, res) => {
+  try {
+    const response = await axios.get('https://www.basketball-reference.com/');
+    const html = response.data;
+    const $ = cheerio.load(html);
+    const games = [];
+
+    // loop through each game summary element
+    $('#scores .game_summary.expanded.nohover').each((i, gameSummary) => {
+      const game = {};
+
+      // scrape the team names and scores from the winner and loser rows
+      const winner = $(gameSummary).find('.winner');
+      const loser = $(gameSummary).find('.loser');
+      game.awayTeamFull = winner.find('td:nth-child(1) a').text().trim();
+      game.awayScore = winner.find('td:nth-child(2)').text().trim();
+      game.homeTeamFull = loser.find('td:nth-child(1) a').text().trim();
+      game.homeScore = loser.find('td:nth-child(2)').text().trim();
+
+      // scrape the scores by quarter from the table body
+      game.scores = {};
+      $(gameSummary).find('.teams + table tbody').each((j, quarterScore) => {
+        const homeScore1 = $(quarterScore).find('td:nth-child(1)').text().trim();
+        const homeScore2 = $(quarterScore).find('td:nth-child(2)').text().trim();
+        const homeScore3 = $(quarterScore).find('td:nth-child(3)').text().trim();
+        const homeScore4 = $(quarterScore).find('td:nth-child(4)').text().trim();
+        const homeScore5 = $(quarterScore).find('td:nth-child(5)').text().trim();
+
+        if (homeScore1 !== '') {
+          game.scores = [homeScore1, homeScore2, homeScore3, homeScore4, homeScore5]
+
+        }
+      });
+
+      games.push(game);
+    });
+
+    res.json(games);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred');
+  }
+});
 
 
 
