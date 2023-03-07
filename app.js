@@ -1965,41 +1965,6 @@ app.get("/statleader", (req, res) => {
   });
 });
 
-// app.get('/schedule', (req, res) => {
-//   axios
-//     .get('https://www.proballers.com/')
-//     .then((response) => {
-//       const html = response.data;
-//       const $ = cheerio.load(html);
-
-//       const games = [];
-
-//       $('.main__schedule__match__entry').each((index, element) => {
-//         const game = {};
-
-//         // Extract team names and logos
-//         const teams = $(element).find('.teams__container .team__entry');
-//         game.homeTeam = teams.eq(0).find('.title').text().trim();
-//         game.homeLogo = teams.eq(0).find('.team__picture').attr('src');
-//         game.awayTeam = teams.eq(1).find('.title').text().trim();
-//         game.awayLogo = teams.eq(1).find('.team__picture').attr('src');
-
-//         // Extract scores
-//         const scores = $(element).find('.score');
-//         game.homeScore = scores.eq(0).text().trim();
-//         game.awayScore = scores.eq(1).text().trim();
-
-//         games.push(game);
-//       });
-
-//       res.json(games);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       res.status(500).send('An error occurred');
-//     });
-// });
-
 app.get('/schedule', async (req, res) => {
   try {
     const response = await axios.get('https://www.basketball-reference.com/');
