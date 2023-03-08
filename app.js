@@ -2008,6 +2008,60 @@ app.get('/schedule', async (req, res) => {
     res.status(500).send('An error occurred');
   }
 });
+app.get('/playerz', (req, res) => {
+  const url = 'https://www.basketball-reference.com/leagues/NBA_2023_per_game.html'; // Replace with the URL that contains the table of NBA players
+
+  axios.get(url)
+    .then(response => {
+      const $ = cheerio.load(response.data);
+      const tableRows = $('tr.full_table');
+      const players = [];
+
+      tableRows.each((i, row) => {
+        const player = {
+          name: $(row).find('td[data-stat="player"]').text(),
+          team: $(row).find('td[data-stat="team_id"]').text(),
+          position: $(row).find('td[data-stat="pos"]').text(),
+          age: $(row).find('td[data-stat="age"]').text(),
+          gamesPlayed: $(row).find('td[data-stat="g"]').text(),
+          gamesStarted: $(row).find('td[data-stat="gs"]').text(),
+          minutesPerGame: $(row).find('td[data-stat="mp_per_g"]').text(),
+          fieldGoalsMade: $(row).find('td[data-stat="fg_per_g"]').text(),
+          fieldGoalsAttempted: $(row).find('td[data-stat="fga_per_g"]').text(),
+          fieldGoalPercentage: $(row).find('td[data-stat="fg_pct"]').text(),
+          threePointersMade: $(row).find('td[data-stat="fg3_per_g"]').text(),
+          threePointersAttempted: $(row).find('td[data-stat="fg3a_per_g"]').text(),
+          threePointPercentage: $(row).find('td[data-stat="fg3_pct"]').text(),
+          twoPointersMade: $(row).find('td[data-stat="fg2_per_g"]').text(),
+          twoPointersAttempted: $(row).find('td[data-stat="fg2a_per_g"]').text(),
+          twoPointPercentage: $(row).find('td[data-stat="fg2_pct"]').text(),
+          effectiveFieldGoalPercentage: $(row).find('td[data-stat="efg_pct"]').text(),
+          freeThrowsMade: $(row).find('td[data-stat="ft_per_g"]').text(),
+          freeThrowsAttempted: $(row).find('td[data-stat="fta_per_g"]').text(),
+          freeThrowPercentage: $(row).find('td[data-stat="ft_pct"]').text(),
+          offensiveRebounds: $(row).find('td[data-stat="orb_per_g"]').text(),
+          defensiveRebounds: $(row).find('td[data-stat="drb_per_g"]').text(),
+          totalRebounds: $(row).find('td[data-stat="trb_per_g"]').text(),
+          assists: $(row).find('td[data-stat="ast_per_g"]').text(),
+          steals: $(row).find('td[data-stat="stl_per_g"]').text(),
+          blocks: $(row).find('td[data-stat="blk_per_g"]').text(),
+          turnovers: $(row).find('td[data-stat="tov_per_g"]').text(),
+          personalFouls: $(row).find('td[data-stat="pf_per_g"]').text(),
+          pointsPerGame: $(row).find('td[data-stat="pts_per_g"]').text()
+        };
+        players.push(player);
+      });
+
+      res.json(players);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).send('Error retrieving players');
+    });
+});
+
+
+
 
 
 
