@@ -1965,39 +1965,61 @@ app.get("/statleader", (req, res) => {
   });
 });
 
-app.get('/schedule', async (req, res) => {
+app.get("/schedule", async (req, res) => {
   try {
-    const response = await axios.get('https://www.basketball-reference.com/');
+    const response = await axios.get("https://www.basketball-reference.com/");
     const html = response.data;
     const $ = cheerio.load(html);
     const games = [];
 
     // loop through each game summary element
-    $('#scores .game_summary.expanded.nohover').each((i, gameSummary) => {
+    $("#scores .game_summary.expanded.nohover").each((i, gameSummary) => {
       const game = {};
 
       // scrape the team names and scores from the winner and loser rows
-      const winner = $(gameSummary).find('.winner');
-      const loser = $(gameSummary).find('.loser');
-      game.awayTeamFull = winner.find('td:nth-child(1) a').text().trim();
-      game.awayScore = winner.find('td:nth-child(2)').text().trim();
-      game.homeTeamFull = loser.find('td:nth-child(1) a').text().trim();
-      game.homeScore = loser.find('td:nth-child(2)').text().trim();
+      const winner = $(gameSummary).find(".winner");
+      const loser = $(gameSummary).find(".loser");
+      game.awayTeamFull = winner.find("td:nth-child(1) a").text().trim();
+      game.awayScore = winner.find("td:nth-child(2)").text().trim();
+      game.homeTeamFull = loser.find("td:nth-child(1) a").text().trim();
+      game.homeScore = loser.find("td:nth-child(2)").text().trim();
 
       // scrape the scores by quarter from the table body
       game.scores = {};
-      $(gameSummary).find('.teams + table tbody').each((j, quarterScore) => {
-        const homeScore1 = $(quarterScore).find('td:nth-child(1)').text().trim();
-        const homeScore2 = $(quarterScore).find('td:nth-child(2)').text().trim();
-        const homeScore3 = $(quarterScore).find('td:nth-child(3)').text().trim();
-        const homeScore4 = $(quarterScore).find('td:nth-child(4)').text().trim();
-        const homeScore5 = $(quarterScore).find('td:nth-child(5)').text().trim();
+      $(gameSummary)
+        .find(".teams + table tbody")
+        .each((j, quarterScore) => {
+          const homeScore1 = $(quarterScore)
+            .find("td:nth-child(1)")
+            .text()
+            .trim();
+          const homeScore2 = $(quarterScore)
+            .find("td:nth-child(2)")
+            .text()
+            .trim();
+          const homeScore3 = $(quarterScore)
+            .find("td:nth-child(3)")
+            .text()
+            .trim();
+          const homeScore4 = $(quarterScore)
+            .find("td:nth-child(4)")
+            .text()
+            .trim();
+          const homeScore5 = $(quarterScore)
+            .find("td:nth-child(5)")
+            .text()
+            .trim();
 
-        if (homeScore1 !== '') {
-          game.scores = [homeScore1, homeScore2, homeScore3, homeScore4, homeScore5]
-
-        }
-      });
+          if (homeScore1 !== "") {
+            game.scores = [
+              homeScore1,
+              homeScore2,
+              homeScore3,
+              homeScore4,
+              homeScore5,
+            ];
+          }
+        });
 
       games.push(game);
     });
@@ -2005,16 +2027,18 @@ app.get('/schedule', async (req, res) => {
     res.json(games);
   } catch (error) {
     console.error(error);
-    res.status(500).send('An error occurred');
+    res.status(500).send("An error occurred");
   }
 });
-app.get('/playerz', (req, res) => {
-  const url = 'https://www.basketball-reference.com/leagues/NBA_2023_per_game.html'; // Replace with the URL that contains the table of NBA players
+app.get("/playerz", (req, res) => {
+  const url =
+    "https://www.basketball-reference.com/leagues/NBA_2023_per_game.html"; // Replace with the URL that contains the table of NBA players
 
-  axios.get(url)
-    .then(response => {
+  axios
+    .get(url)
+    .then((response) => {
       const $ = cheerio.load(response.data);
-      const tableRows = $('tr.full_table');
+      const tableRows = $("tr.full_table");
       const players = [];
 
       tableRows.each((i, row) => {
@@ -2030,12 +2054,18 @@ app.get('/playerz', (req, res) => {
           fieldGoalsAttempted: $(row).find('td[data-stat="fga_per_g"]').text(),
           fieldGoalPercentage: $(row).find('td[data-stat="fg_pct"]').text(),
           threePointersMade: $(row).find('td[data-stat="fg3_per_g"]').text(),
-          threePointersAttempted: $(row).find('td[data-stat="fg3a_per_g"]').text(),
+          threePointersAttempted: $(row)
+            .find('td[data-stat="fg3a_per_g"]')
+            .text(),
           threePointPercentage: $(row).find('td[data-stat="fg3_pct"]').text(),
           twoPointersMade: $(row).find('td[data-stat="fg2_per_g"]').text(),
-          twoPointersAttempted: $(row).find('td[data-stat="fg2a_per_g"]').text(),
+          twoPointersAttempted: $(row)
+            .find('td[data-stat="fg2a_per_g"]')
+            .text(),
           twoPointPercentage: $(row).find('td[data-stat="fg2_pct"]').text(),
-          effectiveFieldGoalPercentage: $(row).find('td[data-stat="efg_pct"]').text(),
+          effectiveFieldGoalPercentage: $(row)
+            .find('td[data-stat="efg_pct"]')
+            .text(),
           freeThrowsMade: $(row).find('td[data-stat="ft_per_g"]').text(),
           freeThrowsAttempted: $(row).find('td[data-stat="fta_per_g"]').text(),
           freeThrowPercentage: $(row).find('td[data-stat="ft_pct"]').text(),
@@ -2047,20 +2077,387 @@ app.get('/playerz', (req, res) => {
           blocks: $(row).find('td[data-stat="blk_per_g"]').text(),
           turnovers: $(row).find('td[data-stat="tov_per_g"]').text(),
           personalFouls: $(row).find('td[data-stat="pf_per_g"]').text(),
-          pointsPerGame: $(row).find('td[data-stat="pts_per_g"]').text()
+          pointsPerGame: $(row).find('td[data-stat="pts_per_g"]').text(),
         };
         players.push(player);
       });
 
       res.json(players);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
-      res.status(500).send('Error retrieving players');
+      res.status(500).send("Error retrieving players");
     });
 });
+// app.get("/points-leaders", async (req, res) => {
+//   try {
+//     const response = await axios.get(
+//       "https://www.basketball-reference.com/leagues/NBA_2023_leaders.html"
+//     );
+//     const html = response.data;
+//     const $ = cheerio.load(html);
+
+//     // Extract points leaders data
+//     const pointsLeadersRows = $("#leaders_pts tbody tr");
+//     const pointsLeaders = [];
+
+//     pointsLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.points = $(row).find(".value").text().trim();
+
+//       pointsLeaders.push(stat);
+//     });
+
+//     // Extract points per game data
+//     const ppgRows = $("#leaders_pts_per_g tbody tr");
+//     const pointsPerGame = [];
+
+//     ppgRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.pointsPerGame = $(row).find(".value").text().trim();
+
+//       pointsPerGame.push(stat);
+//     });
+
+//     // Extract rebounds leaders data
+//     const reboundsLeadersRows = $("#leaders_trb tbody tr");
+//     const reboundsLeaders = [];
+
+//     reboundsLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.rebounds = $(row).find(".value").text().trim();
+
+//       reboundsLeaders.push(stat);
+//     });
+
+//     const totalRebounds = $("#leaders_trb_per_g tbody tr");
+//     const totalReboundLeaders = [];
+
+//     totalRebounds.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.rebounds = $(row).find(".value").text().trim();
+
+//       totalReboundLeaders.push(stat);
+//     });
+//     const offensiveRebounds = $("#leaders_orb tbody tr");
+//     const offensiveReboundsLeaders = [];
+
+//     offensiveRebounds.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.rebounds = $(row).find(".value").text().trim();
+
+//       offensiveReboundsLeaders.push(stat);
+//     });
+//     const defRebounds = $("#leaders_drb tbody tr");
+//     const defReboundsLeaders = [];
+
+//     defRebounds.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.rebounds = $(row).find(".value").text().trim();
+
+//       defReboundsLeaders.push(stat);
+//     });
+
+//     const assists = $("#leaders_ast tbody tr");
+//     const assistsLeaders = [];
+
+//     assists.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.rebounds = $(row).find(".value").text().trim();
+
+//       assistsLeaders.push(stat);
+//     });
+
+//     const assistsPerGame = $("#leaders_ast_per_g tbody tr");
+//     const assistsLeadersPerGame = [];
+
+//     assistsPerGame.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.rebounds = $(row).find(".value").text().trim();
+
+//       assistsLeadersPerGame.push(stat);
+//     });
+
+//     const stealsLeadersRows = $("#leaders_stl tbody tr");
+//     const stealsLeaders = [];
+
+//     stealsLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.steals = $(row).find(".value").text().trim();
+
+//       stealsLeaders.push(stat);
+//     });
+
+//     const stealsLeadersRowsPerGame = $("#leaders_stl_per_g tbody tr");
+//     const stealsLeadersPerGame = [];
+
+//     stealsLeadersRowsPerGame.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.stealsPerGame = $(row).find(".value").text().trim();
+
+//       stealsLeadersPerGame.push(stat);
+//     });
+
+//     const blocksLeadersRows = $("#leaders_blk tbody tr");
+//     const blocksLeaders = [];
+
+//     blocksLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.blocks = $(row).find(".value").text().trim();
+
+//       blocksLeaders.push(stat);
+//     });
+
+//     const blocksLeadersPerGameRows = $("#leaders_blk_per_g tbody tr");
+//     const blocksLeadersPerGame = [];
+
+//     blocksLeadersPerGameRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.blocksPerGame = $(row).find(".value").text().trim();
+
+//       blocksLeadersPerGame.push(stat);
+//     });
+
+//     const fgPctLeadersRows = $("#leaders_fg_pct tbody tr");
+//     const fgPctLeaders = [];
+
+//     fgPctLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.fgPct = $(row).find(".value").text().trim();
+
+//       fgPctLeaders.push(stat);
+//     });
+
+//     const ftPctLeadersRows = $("#leaders_ft_pct tbody tr");
+//     const ftPctLeaders = [];
+
+//     ftPctLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.ftPct = $(row).find(".value").text().trim();
+
+//       ftPctLeaders.push(stat);
+//     });
+
+//     const fg3PctLeadersRows = $("#leaders_fg3_pct tbody tr");
+//     const fg3PctLeaders = [];
+
+//     fg3PctLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.fg3Pct = $(row).find(".value").text().trim();
+
+//       fg3PctLeaders.push(stat);
+//     });
+
+//     const fg2PctLeadersRows = $("#leaders_fg2_pct tbody tr");
+//     const fg2PctLeaders = [];
+
+//     fg2PctLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.fg2Pct = $(row).find(".value").text().trim();
+
+//       fg2PctLeaders.push(stat);
+//     });
+
+//     const efgPctLeadersRows = $("#leaders_efg_pct tbody tr");
+//     const efgPctLeaders = [];
+
+//     efgPctLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.efgPct = $(row).find(".value").text().trim();
+
+//       efgPctLeaders.push(stat);
+//     });
+
+//     const tsPctLeadersRows = $("#leaders_ts_pct tbody tr");
+//     const tsPctLeaders = [];
+
+//     tsPctLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.tsPct = $(row).find(".value").text().trim();
+
+//       tsPctLeaders.push(stat);
+//     });
+
+//     const fgLeadersRows = $("#leaders_fg tbody tr");
+//     const fgLeaders = [];
+
+//     fgLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.fieldGoalsMade = $(row).find(".value").text().trim();
+
+//       fgLeaders.push(stat);
+//     });
+
+//     const fgaLeadersRows = $("#leaders_fga tbody tr");
+//     const fgaLeaders = [];
+
+//     fgaLeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.fga = $(row).find(".value").text().trim();
+
+//       fgaLeaders.push(stat);
+//     });
+
+//     const fg2LeadersRows = $("#leaders_fg2 tbody tr");
+//     const fg2Leaders = [];
+
+//     fg2LeadersRows.each((i, row) => {
+//       const stat = {};
+//       stat.rank = $(row).find(".rank").text().trim();
+//       stat.player = $(row).find(".who a").text().trim();
+//       stat.team = $(row).find(".desc").text().trim();
+//       stat.fg2M = $(row).find(".value").text().trim();
+
+//       fg2Leaders.push(stat);
+//     });
+
+//     // Send response
+//     res.json({
+//       pointsLeaders: pointsLeaders,
+//       pointsPerGame: pointsPerGame,
+//       reboundsLeaders: reboundsLeaders,
+//       totalReboundLeaders: totalReboundLeaders,
+//       offensiveReboundsLeaders: offensiveReboundsLeaders,
+//       defReboundsLeaders: defReboundsLeaders,
+//       assistsLeaders: assistsLeaders,
+//       assistsLeadersPerGame: assistsLeadersPerGame,
+//       stealsLeaders: stealsLeaders,
+//       stealsLeadersPerGame: stealsLeadersPerGame,
+//       blocksLeaders: blocksLeaders,
+//       blocksLeadersPerGame: blocksLeadersPerGame,
+//       fgPctLeaders: fgPctLeaders,
+//       ftPctLeaders: ftPctLeaders,
+//       fg3PctLeaders: fg3PctLeaders,
+//       fg2PctLeaders: fg2PctLeaders,
+//       efgPctLeaders: efgPctLeaders,
+//       tsPctLeaders: tsPctLeaders,
+//       fgLeaders: fgLeaders,
+//       fgaLeaders: fgaLeaders,
+//       fg2Leaders: fg2Leaders
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("An error occurred");
+//   }
+// });
 
 
+app.get("/points-leaders", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://www.basketball-reference.com/leagues/NBA_2023_leaders.html"
+    );
+    const html = response.data;
+    const $ = cheerio.load(html);
+
+    const divLeaders = $("#div_leaders");
+    const dataGridBoxes = divLeaders.find(".data_grid_box");
+    const tables = dataGridBoxes.find("table");
+
+    const results = [];
+
+    tables.each((i, table) => {
+      const tableRows = $(table).find("tbody tr");
+      const tableData = [];
+
+      tableRows.each((j, row) => {
+        const rowData = {};
+
+        $(row)
+          .find("td")
+          .each((k, cell) => {
+            const cellText = $(cell).text().trim();
+
+            if (k === 1) {
+              const [playerName, teamName] = cellText.split("•").map((t) => t.trim());
+              rowData["playerName"] = playerName;
+              rowData["teamName"] = teamName;
+            } else {
+              rowData[`col${k}`] = cellText;
+            }
+          });
+
+        tableData.push(rowData);
+      });
+
+      const categoryName = $(table).find("caption").text().trim();
+
+      results.push({
+        tableId: $(table).attr("id"),
+        categoryName,
+        tableData,
+      });
+    });
+
+    // Send response
+    res.json({
+      results,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred");
+  }
+});
 
 
 
