@@ -1965,71 +1965,6 @@ app.get("/statleader", (req, res) => {
   });
 });
 
-// app.get("/schedule", async (req, res) => {
-//   try {
-//     const response = await axios.get("https://www.basketball-reference.com/");
-//     const html = response.data;
-//     const $ = cheerio.load(html);
-//     const games = [];
-
-//     // loop through each game summary element
-//     $("#scores .game_summary.expanded.nohover").each((i, gameSummary) => {
-//       const game = {};
-
-//       // scrape the team names and scores from the winner and loser rows
-//       const winner = $(gameSummary).find(".winner");
-//       const loser = $(gameSummary).find(".loser");
-//       game.awayTeamFull = winner.find("td:nth-child(1) a").text().trim();
-//       game.awayScore = winner.find("td:nth-child(2)").text().trim();
-//       game.homeTeamFull = loser.find("td:nth-child(1) a").text().trim();
-//       game.homeScore = loser.find("td:nth-child(2)").text().trim();
-
-//       // scrape the scores by quarter from the table body
-//       game.scores = {};
-//       $(gameSummary)
-//         .find(".teams + table tbody")
-//         .each((j, quarterScore) => {
-//           const homeScore1 = $(quarterScore)
-//             .find("td:nth-child(1)")
-//             .text()
-//             .trim();
-//           const homeScore2 = $(quarterScore)
-//             .find("td:nth-child(2)")
-//             .text()
-//             .trim();
-//           const homeScore3 = $(quarterScore)
-//             .find("td:nth-child(3)")
-//             .text()
-//             .trim();
-//           const homeScore4 = $(quarterScore)
-//             .find("td:nth-child(4)")
-//             .text()
-//             .trim();
-//           const homeScore5 = $(quarterScore)
-//             .find("td:nth-child(5)")
-//             .text()
-//             .trim();
-
-//           if (homeScore1 !== "") {
-//             game.scores = [
-//               homeScore1,
-//               homeScore2,
-//               homeScore3,
-//               homeScore4,
-//               homeScore5,
-//             ];
-//           }
-//         });
-
-//       games.push(game);
-//     });
-
-//     res.json(games);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("An error occurred");
-//   }
-// });
 app.get("/playerz", (req, res) => {
   const url =
     "https://www.basketball-reference.com/leagues/NBA_2023_per_game.html"; // Replace with the URL that contains the table of NBA players
@@ -2279,43 +2214,7 @@ const player = {
   }
   });
 
-app.get('/boxscores', async (req, res) => {
-  const url = 'https://www.basketball-reference.com/boxscores/202303100PHI.html';
-  const response = await axios.get(url);
 
-  const html = response.data;
-  const $ = cheerio.load(html);
-
-  const tableData = [];
-
-  $('tr').each((i, element) => {
-    const th = $(element).find('th');
-    const tds = $(element).find('td');
-    const rowData = {};
-
-    if (!tds.length || !$(tds[0]).text().trim()) {
-      return; // skip header row and rows for starters and team totals
-    }
-
-    th.each((j, th) => {
-      const key = $(th).attr('data-stat');
-      const value = $(th).text().trim();
-      rowData[key] = value;
-    });
-
-    tds.each((j, td) => {
-      const key = $(td).attr('data-stat');
-      const value = $(td).text().trim();
-      rowData[key] = value;
-    });
-
-    if (Object.keys(rowData).length > 0) {
-      tableData.push(rowData);
-    }
-  });
-
-  res.json(tableData);
-});
 app.get("/schedule", async (req, res) => {
   try {
     const response = await axios.get("https://www.basketball-reference.com/");
@@ -2388,6 +2287,45 @@ app.get("/schedule", async (req, res) => {
     console.error(error);
     res.status(500).send("An error occurred");
   }
+});
+
+app.get('/boxscores', async (req, res) => {
+
+  const url = req.query.url;
+  const response = await axios.get(url);
+
+  const html = response.data;
+  const $ = cheerio.load(html);
+
+  const tableData = [];
+
+  $('tr').each((i, element) => {
+    const th = $(element).find('th');
+    const tds = $(element).find('td');
+    const rowData = {};
+
+    if (!tds.length || !$(tds[0]).text().trim()) {
+      return; // skip header row and rows for starters and team totals
+    }
+
+    th.each((j, th) => {
+      const key = $(th).attr('data-stat');
+      const value = $(th).text().trim();
+      rowData[key] = value;
+    });
+
+    tds.each((j, td) => {
+      const key = $(td).attr('data-stat');
+      const value = $(td).text().trim();
+      rowData[key] = value;
+    });
+
+    if (Object.keys(rowData).length > 0) {
+      tableData.push(rowData);
+    }
+  });
+
+  res.json(tableData);
 });
 
 
