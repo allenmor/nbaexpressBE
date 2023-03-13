@@ -2356,7 +2356,20 @@ app.get('/boxscores', async (req, res) => {
 //       picks.push(pick);
 //     });
 
-//     res.json(picks);
+//     const spreadPicks = $('.picks-spread .expert-label-data').text().trim();
+//     const overUnderPicks = $('.picks-o-u .expert-label-data').text().trim();
+
+//     const expertPicks = {
+//       spreadPicks,
+//       overUnderPicks
+//     };
+
+//     const result = {
+//       picks,
+//       expertPicks
+//     };
+
+//     res.json(result);
 //   } catch (error) {
 //     console.error(error);
 //     res.status(500).send('Server error');
@@ -2373,19 +2386,25 @@ app.get('/picks', async (req, res) => {
 
     $('div.picks-tr').each((i, element) => {
       const homeTeam = $(element).find('div.game-info-team:nth-child(1) > span.team > a').text();
+      const homeLogo = $(element).find('div.game-info-team:nth-child(1) > span.logo > div > a > figure > img').attr('data-lazy');
       const awayTeam = $(element).find('div.game-info-team:nth-child(2) > span.team > a').text();
+      const awayLogo = $(element).find('div.game-info-team:nth-child(2) > span.logo > div > a > figure > img').attr('data-lazy');
       const overUnder = $(element).find('div.picks-td:nth-child(2) > div:nth-child(1) > span').text().trim();
       const spread = $(element).find('div.picks-td:nth-child(2) > div:nth-child(2) > span').text().trim();
       const expertSpread = $(element).find('div.picks-td:nth-child(3) > div > div.expert-spread').text().trim();
       const expertOU = $(element).find('div.picks-td:nth-child(3) > div > div.expert-ou').text().trim();
+      const expertLogo = $(element).find('div.picks-td:nth-child(3) > div > div.expert-spread > div.expert-logo > div > a > figure > img').attr('data-lazy');
 
       const pick = {
         homeTeam,
+        homeLogo,
         awayTeam,
+        awayLogo,
         overUnder,
         spread,
         expertSpread,
         expertOU,
+        expertLogo
       };
 
       picks.push(pick);
@@ -2410,8 +2429,6 @@ app.get('/picks', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
-
 
 
 
