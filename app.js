@@ -2394,6 +2394,15 @@ app.get('/picks', async (req, res) => {
       const expertSpread = $(element).find('div.picks-td:nth-child(3) > div > div.expert-spread').text().trim();
       const expertOU = $(element).find('div.picks-td:nth-child(3) > div > div.expert-ou').text().trim();
       const expertLogo = $(element).find('div.picks-td:nth-child(3) > div > div.expert-spread > div.expert-logo > div > a > figure > img').attr('data-lazy');
+      const datetime = $(element).find('div.game-info-options > div.current-status > span[data-format-datetime]').attr('data-format-datetime');
+      const match = /value\\?":\s?"(\d+)"/.exec(datetime);
+      const timestamp = match ? match[1] : null;
+      
+      // Convert timestamp to human-readable time
+      const time = timestamp ? new Date(timestamp * 1000).toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}) : '';
+      
+
+
 
       const pick = {
         homeTeam,
@@ -2404,7 +2413,8 @@ app.get('/picks', async (req, res) => {
         spread,
         expertSpread,
         expertOU,
-        expertLogo
+        expertLogo,
+        time
       };
 
       picks.push(pick);
