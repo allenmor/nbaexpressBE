@@ -2106,9 +2106,13 @@ app.get("/player", async (req, res) => {
     }
   }
   let lastNameDone = lastName.join('').toLowerCase()
+  let number = '01'
+  if(lastNameDone+firstNameDone === 'davisan') {
+    number = '02'
+  }
   try {
     const response = await axios.get(
-      `https://www.basketball-reference.com/players/${lastNameDone[0]}/${lastNameDone + firstNameDone}01.html`
+      `https://www.basketball-reference.com/players/${lastNameDone[0]}/${lastNameDone + firstNameDone}${number}.html`
     );
     const $ = cheerio.load(response.data);
 
